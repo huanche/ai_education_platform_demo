@@ -3,6 +3,8 @@
 import re
 from datetime import datetime
 
+from app.models.enums import UserRole
+
 from pydantic import (
     BaseModel,
     EmailStr,
@@ -55,6 +57,9 @@ class UserCreate(BaseModel):
     password: SecretStr = Field(..., description="User's password", min_length=8, max_length=64)
     username: str | None = Field(default=None, description="Optional display name", max_length=50)
 
+    # 这里使用 ...，代表注册时必填。
+    role: UserRole = Field(..., description="Education role: teacher or student")
+
     @field_validator("password")
     @classmethod
     def validate_password(cls, v: SecretStr) -> SecretStr:
@@ -104,6 +109,8 @@ class UserResponse(BaseResponse):
     email: str = Field(..., description="User's email address")
     username: str | None = Field(default=None, description="Optional display name")
     token: Token = Field(..., description="Authentication token")
+
+    role: UserRole = Field(..., description="Education role: teacher or student")
 
 
 class SessionResponse(BaseResponse):

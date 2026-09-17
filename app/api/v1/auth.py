@@ -7,6 +7,8 @@ and token verification.
 import uuid
 from typing import List
 
+from app.models.enums import UserRole
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -102,6 +104,20 @@ async def get_current_user(
         )
 
 
+async def require_teacher(user: User = Depends(get_current_user)) -> User:
+    """Return the current user only when the user is a teacher."""
+    if user.role != UserRole.TEACHER:
+        raise HTTPException(status_code=403, detail="Teacher role required")
+    return user
+
+
+async def require_student(user: User = Depends(get_current_user)) -> User:
+    """Return the current user only when the user is a student."""
+    if user.role != UserRole.STUDENT:
+        raise HTTPException(status_code=403, detail="Student role required")
+    return user
+
+
 async def get_current_session(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> Session:
@@ -187,12 +203,13 @@ async def register_user(request: Request, user_data: UserCreate):
             email=sanitized_email,
             password=User.hash_password(password),
             username=sanitized_username,
+            role=user_data.role,
         )
 
         # Create access token
         token = create_access_token(str(user.id))
 
-        return UserResponse(id=user.id, email=user.email, username=user.username, token=token)
+        return UserResponse(id=user.id, email=user.email, username=user.username, role=user.role, token=token)
     except ValueError as ve:
         logger.exception("user_registration_validation_failed", error=str(ve))
         raise HTTPException(status_code=422, detail=str(ve))

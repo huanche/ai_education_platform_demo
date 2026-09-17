@@ -129,6 +129,9 @@ class Settings:
         with appropriate defaults for each setting. Also applies
         environment-specific overrides based on the current environment.
         """
+        # 后添加
+        self.OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "")
+
         # Set the environment
         self.ENVIRONMENT = get_environment()
 
@@ -165,8 +168,10 @@ class Settings:
         self.LLM_TOTAL_TIMEOUT = int(os.getenv("LLM_TOTAL_TIMEOUT", "60"))
 
         # Long term memory Configuration
-        self.LONG_TERM_MEMORY_MODEL = os.getenv("LONG_TERM_MEMORY_MODEL", "gpt-5-nano")
-        self.LONG_TERM_MEMORY_EMBEDDER_MODEL = os.getenv("LONG_TERM_MEMORY_EMBEDDER_MODEL", "text-embedding-3-small")
+        # self.LONG_TERM_MEMORY_MODEL = os.getenv("LONG_TERM_MEMORY_MODEL", "gpt-5-nano")
+        self.LONG_TERM_MEMORY_MODEL = os.getenv("LONG_TERM_MEMORY_MODEL", "deepseek-chat")
+        # self.LONG_TERM_MEMORY_EMBEDDER_MODEL = os.getenv("LONG_TERM_MEMORY_EMBEDDER_MODEL", "text-embedding-3-small")
+        self.LONG_TERM_MEMORY_EMBEDDER_MODEL = os.getenv("LONG_TERM_MEMORY_EMBEDDER_MODEL", "deepseek-embedding")
         self.LONG_TERM_MEMORY_COLLECTION_NAME = os.getenv("LONG_TERM_MEMORY_COLLECTION_NAME", "longterm_memory")
         # JWT Configuration
         self.JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "")
@@ -213,6 +218,17 @@ class Settings:
             "login": ["20 per minute"],
             "root": ["10 per minute"],
             "health": ["20 per minute"],
+            "course_create": ["20 per hour"],
+            "course_list": ["60 per minute"],
+            "course_enroll": ["20 per hour"],
+            "activity_create": ["30 per hour"],
+            "activity_list": ["60 per minute"],
+            "activity_publish": ["20 per hour"],
+            "activity_read": ["60 per minute"],
+            "teacher_question_generate": ["20 per hour"],
+            "teacher_ppt_outline_generate": ["20 per hour"],
+            "student_learning_context": ["60 per minute"],
+            "student_learning_guide": ["30 per minute"],
         }
 
         # Update rate limit endpoints from environment variables

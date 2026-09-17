@@ -15,6 +15,14 @@ from app.models.session import Session  # noqa: F401
 from app.models.thread import Thread  # noqa: F401
 from app.models.user import User  # noqa: F401
 
+from app.models.course import Course  # noqa: F401
+from app.models.enrollment import Enrollment  # noqa: F401
+from app.models.learning_activity import LearningActivity  # noqa: F401
+from app.models.question import Question  # noqa: F401
+from app.models.submission import Submission  # noqa: F401
+from app.models.agent_task import AgentTask  # noqa: F401
+from app.models.learning_resource import LearningResource  # noqa: F401
+
 # Alembic Config object
 config = context.config
 

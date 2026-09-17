@@ -30,41 +30,61 @@ class LLMRegistry:
 
     # Ordered by preference: index 0 is the default and the head of the circular
     # fallback chain, so it degrades newest -> cheapest.
-    LLMS: List[Dict[str, Any]] = [
+    # LLMS: List[Dict[str, Any]] = [
+    #     {
+    #         "name": "gpt-5.6-luna",
+    #         "llm": ChatOpenAI(
+    #             model="gpt-5.6-luna",
+    #             api_key=_API_KEY,
+    #             max_completion_tokens=settings.MAX_TOKENS,
+    #             reasoning={"effort": "medium"},
+    #         ),
+    #     },
+    #     {
+    #         "name": "gpt-5.4",
+    #         "llm": ChatOpenAI(
+    #             model="gpt-5.4",
+    #             api_key=_API_KEY,
+    #             max_completion_tokens=settings.MAX_TOKENS,
+    #             reasoning={"effort": "medium"},
+    #         ),
+    #     },
+    #     {
+    #         "name": "gpt-5.4-mini",
+    #         "llm": ChatOpenAI(
+    #             model="gpt-5.4-mini",
+    #             api_key=_API_KEY,
+    #             max_completion_tokens=settings.MAX_TOKENS,
+    #             reasoning={"effort": "low"},
+    #         ),
+    #     },
+    #     {
+    #         "name": "gpt-5.4-nano",
+    #         "llm": ChatOpenAI(
+    #             model="gpt-5.4-nano",
+    #             api_key=_API_KEY,
+    #             max_completion_tokens=settings.MAX_TOKENS,
+    #             reasoning={"effort": "low"},
+    #         ),
+    #     },
+    # ]
+    LLMS = [
         {
-            "name": "gpt-5.6-luna",
+            "name": "deepseek-v4-pro",
             "llm": ChatOpenAI(
-                model="gpt-5.6-luna",
+                model="deepseek-v4-pro",
                 api_key=_API_KEY,
                 max_completion_tokens=settings.MAX_TOKENS,
-                reasoning={"effort": "medium"},
+                base_url=settings.OPENAI_BASE_URL,
             ),
         },
         {
-            "name": "gpt-5.4",
+            "name": "deepseek-flash",
             "llm": ChatOpenAI(
-                model="gpt-5.4",
+                model="deepseek-flash",
                 api_key=_API_KEY,
                 max_completion_tokens=settings.MAX_TOKENS,
-                reasoning={"effort": "medium"},
-            ),
-        },
-        {
-            "name": "gpt-5.4-mini",
-            "llm": ChatOpenAI(
-                model="gpt-5.4-mini",
-                api_key=_API_KEY,
-                max_completion_tokens=settings.MAX_TOKENS,
-                reasoning={"effort": "low"},
-            ),
-        },
-        {
-            "name": "gpt-5.4-nano",
-            "llm": ChatOpenAI(
-                model="gpt-5.4-nano",
-                api_key=_API_KEY,
-                max_completion_tokens=settings.MAX_TOKENS,
-                reasoning={"effort": "low"},
+                base_url=settings.OPENAI_BASE_URL,
             ),
         },
     ]

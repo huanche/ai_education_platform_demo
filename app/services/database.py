@@ -1,5 +1,7 @@
 """This file contains the database service for the application."""
 
+from app.models.enums import UserRole
+
 from typing import (
     List,
     Optional,
@@ -66,7 +68,13 @@ class DatabaseService:
             if settings.ENVIRONMENT != Environment.PRODUCTION:
                 raise
 
-    async def create_user(self, email: str, password: str, username: str | None = None) -> User:
+    async def create_user(
+        self,
+        email: str,
+        password: str,
+        username: str | None = None,
+        role: UserRole = UserRole.STUDENT,
+    ) -> User:
         """Create a new user.
 
         Args:
@@ -78,7 +86,7 @@ class DatabaseService:
             User: The created user
         """
         with Session(self.engine) as session:
-            user = User(email=email, hashed_password=password, username=username)
+            user = User(email=email, hashed_password=password, username=username, role=role)
             session.add(user)
             session.commit()
             session.refresh(user)

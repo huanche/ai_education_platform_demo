@@ -1,5 +1,7 @@
 """This file contains the user model for the application."""
 
+from app.models.enums import UserRole
+
 from typing import (
     TYPE_CHECKING,
     List,
@@ -28,12 +30,16 @@ class User(BaseModel, table=True):
         username: Optional display name for the user
         created_at: When the user was created
         sessions: Relationship to user's chat sessions
+        role: The education role, either teacher or student
     """
 
     id: int = Field(default=None, primary_key=True)
     email: str = Field(unique=True, index=True)
     hashed_password: str
     username: Optional[str] = Field(default=None, index=False)
+
+    role: UserRole = Field(default=UserRole.STUDENT, index=True)
+
     sessions: List["Session"] = Relationship(back_populates="user")
 
     def verify_password(self, password: str) -> bool:
